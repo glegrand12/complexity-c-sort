@@ -1,3 +1,4 @@
+#include <stdio.h>
 // Tri par insertion - Version itérative
 void tri_insertion_iteratif(int tableau[], int taille) {
     int i, j, cle;

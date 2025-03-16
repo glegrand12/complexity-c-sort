@@ -26,34 +26,30 @@ int partition(int tableau[], int bas, int haut) {
 
 // Fonction de partitionnement avec pivot médian
 int partition_median_pivot(int tableau[], int bas, int haut) {
-    if (haut - 1 < bas) return bas; // Vérification pour éviter un débordement
+    if (haut <= bas) return bas; // Vérification pour éviter un débordement
     int milieu = bas + (haut - bas) / 2;
 
     // Trier bas, milieu et haut
     if (tableau[milieu] < tableau[bas]) echanger(&tableau[milieu], &tableau[bas]);
     if (tableau[haut] < tableau[bas]) echanger(&tableau[haut], &tableau[bas]);
-    if (tableau[milieu] < tableau[haut]) echanger(&tableau[milieu], &tableau[haut]);
+    if (tableau[milieu] > tableau[haut]) echanger(&tableau[milieu], &tableau[haut]);
 
-    // Placer le pivot (médiane) à l'avant-dernière position
-    echanger(&tableau[milieu], &tableau[haut - 1]);
-    int pivot = tableau[haut - 1];
+    // Mettre le pivot en position finale
+    echanger(&tableau[milieu], &tableau[haut]);
+    int pivot = tableau[haut];
 
-    // Partition
-    int i = bas;
-    int j = haut - 2;
-
-    while (1) {
-        while (tableau[i] < pivot) i++;
-        while (tableau[j] > pivot) j--;
-
-        if (i >= j) break;
-        echanger(&tableau[i], &tableau[j]);
+    int i = bas - 1;
+    for (int j = bas; j < haut; j++) {
+        if (tableau[j] <= pivot) {
+            i++;
+            echanger(&tableau[i], &tableau[j]);
+        }
     }
 
-    // Restaurer le pivot
-    echanger(&tableau[i], &tableau[haut - 1]);
-    return i;
+    echanger(&tableau[i + 1], &tableau[haut]);
+    return i + 1;
 }
+
 
 // Fonction de partitionnement avec pivot aléatoire
 int partition_random_pivot(int tableau[], int bas, int haut) {
@@ -99,6 +95,6 @@ void tri_rapide_median_wrapper(int tableau[], int taille) {
 }
 
 void tri_rapide_random_wrapper(int tableau[], int taille) {
-    srand(time(NULL)); // Initialisation du générateur de nombres aléatoires
+    srand(time(NULL));
     tri_rapide_random(tableau, 0, taille - 1);
 }

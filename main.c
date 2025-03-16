@@ -18,11 +18,11 @@ double mesurer_temps(void (*fonction_tri)(int[], int), int tableau[], int taille
     // Copier le tableau pour préserver l'original
     copier_tableau(tableau, copie, taille);
 
-    clock_t debut = clock();
+    const clock_t debut = clock();
     fonction_tri(copie, taille);
-    clock_t fin = clock();
+    const clock_t fin = clock();
 
-    double temps = ((double) (fin - debut)) / CLOCKS_PER_SEC;
+    const double temps = ((double) (fin - debut)) / CLOCKS_PER_SEC;
 
     // Vérifier que le tri a fonctionné
     if (!est_trie(copie, taille)) {
@@ -32,6 +32,7 @@ double mesurer_temps(void (*fonction_tri)(int[], int), int tableau[], int taille
     free(copie);
     return temps;
 }
+
 
 void executer_tests_operations() {
     srand(time(NULL));
@@ -60,12 +61,76 @@ typedef struct {
 } ResultatTemps;
 
 // Fonction principale
+/*
+#include <stdio.h>
+#include "tri.h"
+#include "array_utils.h"
+
+// Liste des tris à tester
+void (*tris[])(int[], int) = {
+    tri_insertion_iteratif,
+    tri_insertion_recursif,
+    tri_fusion,
+    tri_fusion_iteratif,
+    tri_rapide,
+    tri_rapide_median_wrapper,
+    tri_rapide_random_wrapper
+};
+
+// Noms des tris correspondants
+const char* noms_tris[] = {
+    "Tri Insertion Itératif",
+    "Tri Insertion Récursif",
+    "Tri Fusion",
+    "Tri Fusion Itératif",
+    "Tri Rapide Classique",
+    "Tri Rapide (Pivot Médian)",
+    "Tri Rapide (Pivot Aléatoire)"
+};
+
+#define NB_TRIS (sizeof(tris) / sizeof(tris[0]))
+
+void tester_un_tri(void (*fonction_tri)(int[], int), const char* nom) {
+    int tableau[] = {5, 1, 3, 2, 4};
+    int taille = sizeof(tableau) / sizeof(tableau[0]);
+
+    printf("\n=== Test de %s ===\n", nom);
+    printf("Avant tri : ");
+    for (int i = 0; i < taille; i++) {
+        printf("%d ", tableau[i]);
+    }
+    printf("\n");
+
+    fonction_tri(tableau, taille);
+
+    printf("Après tri : ");
+    for (int i = 0; i < taille; i++) {
+        printf("%d ", tableau[i]);
+    }
+    printf("\n");
+
+    if (!est_trie(tableau, taille)) {
+        printf("❌ ERREUR : Le tri %s ne fonctionne pas correctement !\n", nom);
+    } else {
+        printf("✅ OK : Le tri %s fonctionne.\n", nom);
+    }
+}
+
+int main() {
+    for (int i = 0; i < NB_TRIS; i++) {
+        tester_un_tri(tris[i], noms_tris[i]);
+    }
+    return 0;
+}
+*/
+
+
 int main() {
     srand(time(NULL));
 
     // Tailles de tableaux à tester
-    int tailles[] = {1000, 5000, 10000, 20000};
-    int nb_tailles = sizeof(tailles) / sizeof(tailles[0]);
+    const int tailles[] = {1000, 5000, 10000, 20000};
+    const int nb_tailles = sizeof(tailles) / sizeof(tailles[0]);
 
     // Tableau de fonctions de tri
     void (*fonctions_tri[])(int[], int) = {
